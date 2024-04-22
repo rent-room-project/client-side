@@ -12,10 +12,9 @@ export default {
     extend: {
       spacing: {
         "90": "22.5rem",
-        "91": "22.75rem"
-      }
+        "91": "22.75rem",
+      },
     },
   },
   plugins: [],
-}
-
+};

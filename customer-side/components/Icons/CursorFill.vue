@@ -1,12 +1,12 @@
 <script setup lang="ts">
-const props = defineProps(["width", "heigth"]);
+const { width = "16", heigth = "16" } = defineProps(["width", "heigth"]);
 </script>
 
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    :width="props.width"
-    :height="props.heigth"
+    :width="width"
+    :height="heigth"
     fill="currentColor"
     class="bi bi-cursor-fill"
     viewBox="0 0 16 16"
