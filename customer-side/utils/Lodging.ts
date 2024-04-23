@@ -1,3 +1,6 @@
+import type { Author } from "./Author";
+import type { Type } from "./Type";
+
 export type Lodging = {
   id: string;
   name: string;
@@ -6,16 +9,6 @@ export type Lodging = {
   imgUrl: string;
   location: string;
   price: number;
-  Type: {
-    id: string;
-    name: string;
-  };
-  Author: {
-    id: string;
-    username: string;
-    email: string;
-    role: string;
-    phoneNumber?: string;
-    address?: string;
-  };
+  Type: Type;
+  Author: Author;
 };
