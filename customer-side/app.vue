@@ -1,5 +1,11 @@
+<script setup lang="ts">
+useSeoMeta({
+  title: "Inapin Ajah",
+});
+</script>
+
 <template>
-  <main class="min-h-screen bg-slate-100 pb-5">
+  <main class="min-h-screen bg-slate-100">
     <NuxtPage />
   </main>
 </template>

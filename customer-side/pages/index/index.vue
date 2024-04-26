@@ -33,7 +33,7 @@ function setPage(page: number) {
 </script>
 
 <template>
-  <section class="home">
+  <section class="home pb-5">
     <h1 class="text-4xl font-bold mb-8">Home page</h1>
     <hr />
     <div class="mt-2 flex justify-end gap-3">
@@ -55,7 +55,10 @@ function setPage(page: number) {
         class="w-48 rounded-full p-3 focus:border-none focus:outline-none focus:ring focus:ring-violet-300"
       />
     </div>
-    <div class="mt-2 flex flex-wrap gap-5">
+    <div v-if="pending" class="mt-2 flex justify-center">
+      <Loader />
+    </div>
+    <div v-else class="mt-2 flex flex-wrap gap-5">
       <div class="w-90" v-for="(lodging, i) in data?.lodgings" :key="i">
         <CardLodging :lodging="lodging" />
       </div>

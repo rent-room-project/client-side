@@ -1,3 +1,13 @@
+<script setup lang="ts">
+const isLogin = useIsLogin();
+
+function logout() {
+  localStorage.removeItem("access_token");
+  isLogin.value = false;
+  notif("Success", "Sign Out Successfully", "success");
+}
+</script>
+
 <template>
   <nav class="bg-white h-16">
     <div
@@ -18,12 +28,20 @@
       </div>
 
       <div>
-        <a
-          href="#"
+        <NuxtLink
+          v-if="!isLogin"
+          to="/login"
           class="bg-cyan-500 text-white p-2 rounded-md hover:bg-cyan-700"
         >
           Sign In
-        </a>
+        </NuxtLink>
+        <button
+          v-else
+          @click="logout"
+          class="bg-rose-600 text-white p-2 rounded-md hover:bg-rose-800"
+        >
+          Sign Out
+        </button>
       </div>
     </div>
   </nav>
