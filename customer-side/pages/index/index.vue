@@ -7,6 +7,8 @@ type DataResponse = {
   totalPage: number;
 };
 
+const isLogin = useIsLogin();
+
 const currentPage = ref(1);
 const typeId = ref("");
 const search = ref("");
@@ -20,6 +22,20 @@ const { data, error, pending } = await useFetch<DataResponse, AxiosError>(
 );
 
 const { data: types } = await useFetch<Type[]>("/api/types");
+const bookmarks: Ref<Bookmark[]> = ref([]);
+
+let refreshBookmark: (opts?: any) => Promise<void>;
+
+if (isLogin.value) {
+  ({
+    data: { value: bookmarks.value },
+    refresh: refreshBookmark,
+  } = await useFetch("/api/bookmarks", {
+    headers: {
+      access_token: localStorage.access_token,
+    },
+  }));
+}
 
 function debounceSearch(e: Event) {
   setTimeout(() => {
@@ -29,6 +45,13 @@ function debounceSearch(e: Event) {
 
 function setPage(page: number) {
   currentPage.value = page;
+}
+
+async function bookmarkHandle(lodgingId: string) {
+  isBookmarked(bookmarks.value!, lodgingId)
+    ? await deleteBookmark(lodgingId)
+    : await addBookmark(lodgingId);
+  await refreshBookmark();
 }
 </script>
 
@@ -60,7 +83,11 @@ function setPage(page: number) {
     </div>
     <div v-else class="mt-2 flex flex-wrap gap-5">
       <div class="w-90" v-for="(lodging, i) in data?.lodgings" :key="i">
-        <CardLodging :lodging="lodging" />
+        <CardLodging
+          :lodging="lodging"
+          :bookmarks="bookmarks"
+          @bookmark-handle="bookmarkHandle"
+        />
       </div>
     </div>
 

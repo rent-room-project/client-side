@@ -20,8 +20,11 @@ function logout() {
             <NuxtLink to="/" exact-active-class="text-teal-400">Home</NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/about" exact-active-class="text-teal-400"
-              >About</NuxtLink
+            <NuxtLink
+              v-show="isLogin"
+              to="/bookmark"
+              exact-active-class="text-teal-400"
+              >Bookmark</NuxtLink
             >
           </li>
         </ul>

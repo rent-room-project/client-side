@@ -47,6 +47,10 @@ async function login() {
     isLoading.value = false;
   }
 }
+
+async function googleAuth(response: any) {
+  console.log(response);
+}
 </script>
 
 <template>
@@ -105,7 +109,7 @@ async function login() {
             </p>
             <p class="text-center">Or</p>
             <div class="flex justify-center">
-              <GoogleLogin />
+              <GoogleLogin :callback="googleAuth" />
             </div>
             <p class="text-center mt-2">
               Want to search the Accomodation first?

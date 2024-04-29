@@ -1,14 +1,40 @@
 <script setup lang="ts">
-const { lodging } = defineProps<{ lodging: Lodging }>();
+type CardLodgingProp = {
+  lodging: Lodging;
+  bookmarks?: Bookmark[];
+};
+
+type CardLodgingEmit = {
+  // (e: "refreshBookmark", opts?: any): Promise<void>;
+  // (e: "addBookmark", lodgingId: string): Promise<void>;
+  // (e: "deleteBookmark", lodgingId: string): Promise<void>;
+  (e: "bookmarkHandle", lodgingId: string): Promise<void>;
+};
+
+const { lodging, bookmarks } = defineProps<CardLodgingProp>();
+
+const emit = defineEmits<CardLodgingEmit>();
+
+const isLogin = useIsLogin();
 </script>
 
 <template>
   <Card class="relative">
     <img class="w-full" :src="lodging.imgUrl" />
     <button
-      class="absolute top-5 left-5 p-3 text-white bg-black bg-opacity-25 hover:bg-opacity-50 rounded-full"
+      @click="$emit('bookmarkHandle', lodging.id)"
+      v-show="isLogin"
+      :class="[
+        isBookmarked(bookmarks!, lodging.id) ? 'text-rose-500' : 'text-white',
+      ]"
+      class="absolute top-5 left-5 p-3 bg-black bg-opacity-25 hover:bg-opacity-50 rounded-full"
     >
-      <IconsHeart width="20" height="20" />
+      <IconsHeartFill
+        v-if="isBookmarked(bookmarks!, lodging.id)"
+        width="20"
+        height="20"
+      />
+      <IconsHeart v-else width="20" height="20" />
     </button>
     <div class="p-4 relative flex flex-col gap-3">
       <a
