@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ZodError } from "zod";
 
+const isLogin = useIsLogin();
 const isLoading = ref(false);
 
 const form = reactive({
@@ -59,6 +60,20 @@ async function register() {
     }
     isLoading.value = false;
   }
+}
+
+async function googleAuth(response: any) {
+  isLoading.value = true;
+  const result = await $fetch("/api/signInGoogle", {
+    headers: {
+      google_token: response.credential,
+    },
+  });
+
+  localStorage.access_token = result.access_token;
+  isLoading.value = false;
+  navigateTo("/");
+  isLogin.value = true;
 }
 </script>
 
@@ -169,7 +184,7 @@ async function register() {
             </p>
             <p class="text-center">Or</p>
             <div class="flex justify-center">
-              <GoogleLogin />
+              <GoogleLogin :callback="googleAuth" />
             </div>
           </div>
         </form>

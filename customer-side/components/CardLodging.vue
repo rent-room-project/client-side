@@ -5,9 +5,6 @@ type CardLodgingProp = {
 };
 
 type CardLodgingEmit = {
-  // (e: "refreshBookmark", opts?: any): Promise<void>;
-  // (e: "addBookmark", lodgingId: string): Promise<void>;
-  // (e: "deleteBookmark", lodgingId: string): Promise<void>;
   (e: "bookmarkHandle", lodgingId: string): Promise<void>;
 };
 
@@ -37,12 +34,12 @@ const isLogin = useIsLogin();
       <IconsHeart v-else width="20" height="20" />
     </button>
     <div class="p-4 relative flex flex-col gap-3">
-      <a
-        href=""
+      <NuxtLink
+        :to="`/lodgings/${lodging.id}`"
         class="bg-indigo-500 hover:bg-indigo-700 w-12 h-12 rounded-full flex justify-center items-center text-white absolute -top-6 right-5 shadow-lg"
       >
         <IconsCursorFill width="23" heigth="23" />
-      </a>
+      </NuxtLink>
       <div class="flex flex-col">
         <h5 class="text-2xl font-semibold text-gray-800">
           {{ formatPrice(lodging.price) }}

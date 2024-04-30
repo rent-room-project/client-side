@@ -49,7 +49,17 @@ async function login() {
 }
 
 async function googleAuth(response: any) {
-  console.log(response);
+  isLoading.value = true;
+  const result = await $fetch("/api/signInGoogle", {
+    headers: {
+      google_token: response.credential,
+    },
+  });
+
+  localStorage.access_token = result.access_token;
+  isLoading.value = false;
+  navigateTo("/");
+  isLogin.value = true;
 }
 </script>
 
