@@ -1,11 +1,28 @@
 <script setup lang="ts">
 const route = useRoute();
+const isLogin = useIsLogin();
 
 const {
   params: { id },
 } = route;
 
 const { data: lodging, error } = await useFetch<Lodging>(`/api/lodgings/${id}`);
+
+async function buyRoom() {
+  const result = await $fetch(`/api/buy-room/${id}`, {
+    method: "POST",
+    headers: {
+      access_token: localStorage.access_token,
+    },
+  });
+
+  (window as any).snap.pay(result.token, {
+    onSuccess: function (result: any) {
+      notif("Success", "Buy Room Successfully", "success");
+      console.log(result);
+    },
+  });
+}
 </script>
 
 <template>
@@ -60,7 +77,13 @@ const { data: lodging, error } = await useFetch<Lodging>(`/api/lodgings/${id}`);
         </div>
         <div class="flex flex-col gap-2">
           <button
-            class="bg-indigo-500 text-white p-2 rounded-lg hover:bg-indigo-700"
+            @click="buyRoom"
+            class="bg-indigo-500 text-white p-2 rounded-lg"
+            :class="[
+              isLogin
+                ? 'hover:bg-indigo-700'
+                : 'pointer-events-none bg-indigo-500/70',
+            ]"
           >
             Buy Now!
           </button>

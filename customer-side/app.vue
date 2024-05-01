@@ -2,6 +2,16 @@
 useSeoMeta({
   title: "Inapin Ajah",
 });
+
+const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+
+let scriptTag = document.createElement("script");
+scriptTag.src = midtransScriptUrl;
+
+const myMidtransClientKey = "SB-Mid-client-zXO1esl1z1qalhBA";
+scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+
+document.body.appendChild(scriptTag);
 </script>
 
 <template>
