@@ -24,17 +24,16 @@ const { data, error, pending } = await useFetch<DataResponse, AxiosError>(
 const { data: types } = await useFetch<Type[]>("/api/types");
 const bookmarks: Ref<Bookmark[]> = ref([]);
 
-let refreshBookmark: (opts?: any) => Promise<void>;
-
 if (isLogin.value) {
-  ({
-    data: { value: bookmarks.value },
-    refresh: refreshBookmark,
-  } = await useFetch("/api/bookmarks", {
+  await getBookmarks();
+}
+
+async function getBookmarks() {
+  bookmarks.value = await $fetch("/api/bookmarks", {
     headers: {
       access_token: localStorage.access_token,
     },
-  }));
+  });
 }
 
 function debounceSearch(e: Event) {
@@ -51,7 +50,7 @@ async function bookmarkHandle(lodgingId: string) {
   isBookmarked(bookmarks.value!, lodgingId)
     ? await deleteBookmark(lodgingId)
     : await addBookmark(lodgingId);
-  await refreshBookmark();
+  await getBookmarks();
 }
 </script>
 

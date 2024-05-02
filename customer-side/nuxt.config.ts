@@ -13,4 +13,10 @@ export default defineNuxtConfig({
   },
   modules: ["nuxt-bootstrap-icons"],
   ssr: false,
+  nitro: {
+    firebase: {
+      nodeVersion: "20",
+      gen: 2,
+    },
+  },
 });
